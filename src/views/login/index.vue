@@ -85,7 +85,8 @@ export default {
 
         console.log(data)
         // 先清除loading
-        toast.clear()
+        // 如果后面有 this.$toast.success('登录成功')，就不需要toast.clear()手动关闭了
+        // toast.clear()
 
         this.$toast.success('登录成功')
       } catch (err) { // 所有大于等于 400 的状态码都会进入 catch
