@@ -51,6 +51,7 @@
 <script>
 // import request from '@/utils/request'
 import { login } from '@/api/user'
+import { setItem } from '@/utils/storage'
 export default {
   name: 'LoginIndex',
   data () {
@@ -91,6 +92,8 @@ export default {
         // 登录成功，将token存储到Vuex中
         // this.$store.commit('setUser',数据)
         this.$store.commit('setUser', data.data)
+        // 为了防止页面刷新数据丢失，我们需要把数据放到本地存储
+        setItem('user, data.data')
         this.$toast.success('登录成功')
       } catch (err) { // 所有大于等于 400 的状态码都会进入 catch
         if (err.response && err.response.status === 400) {
