@@ -88,6 +88,9 @@ export default {
         // 如果后面有 this.$toast.success('登录成功')，就不需要toast.clear()手动关闭了
         // toast.clear()
 
+        // 登录成功，将token存储到Vuex中
+        // this.$store.commit('setUser',数据)
+        this.$store.commit('setUser', data.data)
         this.$toast.success('登录成功')
       } catch (err) { // 所有大于等于 400 的状态码都会进入 catch
         if (err.response && err.response.status === 400) {
