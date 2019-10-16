@@ -11,7 +11,11 @@ import {
   CellGroup,
   toast,
   Tabbar,
-  TabbarItem } from 'vant'
+  TabbarItem,
+  Tab,
+  Tabs,
+  List
+} from 'vant'
 import './styles/index.less'
 // 表单验证
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate' // 核心组件
@@ -50,7 +54,9 @@ Vue
   .use(toast)
   .use(Tabbar)
   .use(TabbarItem)
-
+  .use(Tab)
+  .use(Tabs)
+  .use(List)
 Vue.config.productionTip = false
 
 new Vue({
