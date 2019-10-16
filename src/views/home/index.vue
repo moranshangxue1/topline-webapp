@@ -7,7 +7,12 @@
     <!-- /导航栏 -->
     <!-- 频道列表 -->
     <van-tabs v-model="active">
-        <van-tab title="标签 1">
+        <van-tab
+            :title="channel.name"
+            v-for="channel in channels"
+            :key="channel.id"
+        >
+
             <!-- 文章列表 -->
             <van-list
                 v-model="loading"
@@ -23,9 +28,6 @@
             </van-list>
             <!-- /文章列表 -->
         </van-tab>
-        <van-tab title="标签 2">内容 2</van-tab>
-        <van-tab title="标签 3">内容 3</van-tab>
-        <van-tab title="标签 4">内容 4</van-tab>
     </van-tabs>
     <!-- /频道列表 -->
 
@@ -33,6 +35,7 @@
 </template>
 
 <script>
+import { getDefaultChannels } from '@/api/channel'
 export default {
   name: 'HomeIndex',
   data () {
@@ -40,8 +43,12 @@ export default {
       active: 0,
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      channels: [] // 频道列表
     }
+  },
+  created () {
+    this.loadChannels()
   },
   methods: {
     onLoad () {
@@ -58,6 +65,10 @@ export default {
           this.finished = true
         }
       }, 500)
+    },
+    async loadChannels () {
+      const { data } = await getDefaultChannels()
+      this.channels = data.data.channels
     }
   }
 }
