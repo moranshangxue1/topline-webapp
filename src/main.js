@@ -3,7 +3,15 @@ import App from './App.vue'
 import router from './router'
 import 'amfe-flexible/index.js'
 import store from './store'
-import { NavBar, Field, Button, Cell, CellGroup, toast } from 'vant'
+import {
+  NavBar,
+  Field,
+  Button,
+  Cell,
+  CellGroup,
+  toast,
+  Tabbar,
+  TabbarItem } from 'vant'
 import './styles/index.less'
 // 表单验证
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate' // 核心组件
@@ -40,6 +48,8 @@ Vue
   .use(Cell)
   .use(CellGroup)
   .use(toast)
+  .use(Tabbar)
+  .use(TabbarItem)
 
 Vue.config.productionTip = false
 
