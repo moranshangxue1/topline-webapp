@@ -14,14 +14,21 @@
         >
 
             <!-- 文章列表 -->
+            <!-- loading 控制上拉加载更多的loading效果
+            finished 控制是否已加载结束
+            finished-text 加载结束的提示文本
+            @load="onLoad" 上拉加载更多触发事件
+            列表组件会在初始化的时候自动触发 load事件从而调用onLoad方法
+             -->
             <van-list
-                v-model="loading"
-                :finished="finished"
+                v-model="channel.loading"
+                :finished="channel.finished"
                 finished-text="没有更多了"
                 @load="onLoad"
             >
+            <!-- 具体内容 -->
                 <van-cell
-                  v-for="item in list"
+                  v-for="item in channel.articles"
                   :key="item"
                   :title="item"
                 />
@@ -58,17 +65,26 @@ export default {
           this.list.push(this.list.length + 1)
         }
         // 加载状态结束
+        // 每次数据加载完毕，列表组件都会判断数据是否满足一屏了
+        // 如果当前数据不满足一屏，它就继续onLoad
+        // 本次不终止，它不会继续加载更多
         this.loading = false
 
         // 数据全部加载完成
         if (this.list.length >= 40) {
           this.finished = true
         }
-      }, 500)
+      }, 2000)
     },
     async loadChannels () {
       const { data } = await getDefaultChannels()
-      this.channels = data.data.channels
+      const channels = data.data.channels
+      channels.forEach(channel => {
+        channel.articles = [] // 存储频道的文章列表
+        channel.finished = false // 存储频道的加载结束状态
+        channel.loading = false // 存储频道的加载更多的 loading 状态
+      })
+      this.channels = channels
     }
   }
 }
