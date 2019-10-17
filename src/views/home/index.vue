@@ -59,26 +59,29 @@ export default {
   },
   methods: {
     onLoad () {
+      // 当前激活的频道对象
+      const activeChannel = this.channels[this.active]
       // 异步更新数据
       setTimeout(() => {
         for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
+          activeChannel.articles.push(activeChannel.articles.length + 1)
         }
         // 加载状态结束
         // 每次数据加载完毕，列表组件都会判断数据是否满足一屏了
         // 如果当前数据不满足一屏，它就继续onLoad
         // 本次不终止，它不会继续加载更多
-        this.loading = false
+        activeChannel.loading = false
 
         // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
+        if (activeChannel.articles.length >= 40) {
+          activeChannel.articles.finished = true
         }
-      }, 2000)
+      }, 500)
     },
     async loadChannels () {
       const { data } = await getDefaultChannels()
       const channels = data.data.channels
+      // this.channels = data.data.channels
       channels.forEach(channel => {
         channel.articles = [] // 存储频道的文章列表
         channel.finished = false // 存储频道的加载结束状态
