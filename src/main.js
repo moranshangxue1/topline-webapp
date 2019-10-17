@@ -18,7 +18,8 @@ import {
   PullRefresh,
   Grid,
   GridItem,
-  Image
+  Image,
+  Lazyload
 } from 'vant'
 import './styles/index.less'
 // 表单验证
@@ -65,6 +66,7 @@ Vue
   .use(Grid)
   .use(GridItem)
   .use(Image)
+  .use(Lazyload)
 Vue.config.productionTip = false
 
 new Vue({
