@@ -15,7 +15,10 @@ import {
   Tab,
   Tabs,
   List,
-  PullRefresh
+  PullRefresh,
+  Grid,
+  GridItem,
+  Image
 } from 'vant'
 import './styles/index.less'
 // 表单验证
@@ -59,6 +62,9 @@ Vue
   .use(Tabs)
   .use(List)
   .use(PullRefresh)
+  .use(Grid)
+  .use(GridItem)
+  .use(Image)
 Vue.config.productionTip = false
 
 new Vue({
