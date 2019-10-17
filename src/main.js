@@ -14,7 +14,8 @@ import {
   TabbarItem,
   Tab,
   Tabs,
-  List
+  List,
+  PullRefresh
 } from 'vant'
 import './styles/index.less'
 // 表单验证
@@ -57,6 +58,7 @@ Vue
   .use(Tab)
   .use(Tabs)
   .use(List)
+  .use(PullRefresh)
 Vue.config.productionTip = false
 
 new Vue({

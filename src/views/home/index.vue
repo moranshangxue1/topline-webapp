@@ -12,8 +12,13 @@
             v-for="channel in channels"
             :key="channel.id"
         >
+        <!-- 下拉刷新
+        v-model="isLoade" 控制下拉刷新的loading状态
+        @refresh 下拉刷新的时候回触发的事件
+        -->
 
-            <!-- 文章列表 -->
+        <van-pull-refresh v-model="channel.isPullDownloading" @refresh="onRefresh">
+              <!-- 文章列表 -->
             <!-- loading 控制上拉加载更多的loading效果
             finished 控制是否已加载结束
             finished-text 加载结束的提示文本
@@ -34,6 +39,7 @@
                 />
             </van-list>
             <!-- /文章列表 -->
+        </van-pull-refresh>
         </van-tab>
     </van-tabs>
     <!-- /频道列表 -->
@@ -105,6 +111,7 @@ export default {
     //     }
     //   }, 500)
     // },
+    // 2. 加载频道列表
     async loadChannels () {
       const { data } = await getDefaultChannels()
       const channels = data.data.channels
@@ -114,8 +121,30 @@ export default {
         channel.finished = false // 存储频道的加载结束状态
         channel.loading = false // 存储频道的加载更多的 loading 状态
         channel.timestamp = null // 存储获取频道下一页的时间戳
+        channel.isPullDownloading = false // 存储频道的下拉刷新loading状态
       })
       this.channels = channels
+    },
+    // 下拉刷新
+    async onRefresh () {
+      // 获取当期激活的频道对象
+      const activeChannel = this.channels[this.active]
+
+      // 1. 请求获取最新推荐的文章列表
+      const { data } = await getArticles({
+        channel_id: activeChannel.id,
+        timestamp: Date.now(), // 下拉刷新永远都是在获取最新推荐的文章列表，所以传递当前最新时间戳
+        with_top: 1
+      })
+
+      // 2. 将数据添加到文章列表顶部
+      activeChannel.articles.unshift(...data.data.results)
+
+      // 3. 关闭下拉刷新的 loading 状态
+      activeChannel.isPullDownLoading = false
+
+      // 4. 提示
+      this.$toast('刷新成功')
     }
   }
 }
