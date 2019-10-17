@@ -3,6 +3,7 @@
       <!-- 导航栏 -->
     <van-nav-bar
         title="首页"
+        fixed
     />
     <!-- /导航栏 -->
     <!-- 频道列表 -->
@@ -173,12 +174,23 @@ export default {
 <style lang="less" scoped>
   .home {
     .article-info {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      .meta span {
-        margin-right: 10px;
-      }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .meta span {
+      margin-right: 10px;
     }
+  }
+    .van-tabs /deep/ .van-tabs__wrap--scrollable {
+    position: fixed;
+    top: 46px;
+    left: 0;
+    right: 16px;
+    z-index: 2;
+    right: 15px;
+    }
+    .van-tabs /deep/ .van-tabs__content {
+    margin-top: 90px;
+  }
   }
 </style>
