@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import 'amfe-flexible/index.js'
 import store from './store'
+import './utils/datetime'
 import {
   NavBar,
   Field,
@@ -19,7 +20,8 @@ import {
   Grid,
   GridItem,
   Image,
-  Lazyload
+  Lazyload,
+  Icon
 } from 'vant'
 import './styles/index.less'
 // 表单验证
@@ -67,6 +69,7 @@ Vue
   .use(GridItem)
   .use(Image)
   .use(Lazyload)
+  .use(Icon)
 Vue.config.productionTip = false
 
 new Vue({
