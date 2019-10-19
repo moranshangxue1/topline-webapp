@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { getDefaultChannels } from '@/api/channel'
+import { getDefaultChannels, getAllChannels } from '@/api/channel'
 import { getArticles } from '@/api/article'
 export default {
   name: 'HomeIndex',
@@ -109,14 +109,19 @@ export default {
       list: [],
       loading: false,
       finished: false,
-      channels: [], // 频道列表
-      isChannelShow: true // 频道管理
+      channels: [], // 我的频道列表
+      isChannelShow: true, // 频道管理
+      allChannels: [] // 所有的频道列表数据
     }
   },
   created () {
+    // 获取我的频道
     this.loadChannels()
+    // 获取所有频道
+    this.loadAllChannels()
   },
   methods: {
+    // 上拉加载更多
     async onLoad () {
       const activeChannel = this.channels[this.active]
       // 1.请求获取数据
@@ -163,7 +168,7 @@ export default {
     //     }
     //   }, 500)
     // },
-    // 2. 加载频道列表
+    // 2. 加载我的频道列表
     async loadChannels () {
       const { data } = await getDefaultChannels()
       const channels = data.data.channels
@@ -197,6 +202,11 @@ export default {
 
       // 4. 提示
       this.$toast('刷新成功')
+    },
+    //  获取所有频道
+    async loadAllChannels () {
+      const { data } = await getAllChannels()
+      this.allChannels = data.data.channels
     }
   }
 }
