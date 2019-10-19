@@ -8,6 +8,11 @@
     <!-- /导航栏 -->
     <!-- 频道列表 -->
     <van-tabs v-model="active" animated swipeable>
+      <!-- 面包菜单按钮 -->
+      <div slot="nav-right" class="wap-nav" @click="isChannelShow = true">
+        <van-icon name="wap-nav" size="24px" />
+      </div>
+      <!-- /面包菜单按钮 -->
         <van-tab
             :title="channel.name"
             v-for="channel in channels"
@@ -119,7 +124,7 @@ export default {
       loading: false,
       finished: false,
       channels: [], // 我的频道列表
-      isChannelShow: true, // 频道管理
+      isChannelShow: false, // 频道的显示状态
       allChannels: [], // 所有的频道列表数据
       isEditShow: false
     }
@@ -284,24 +289,33 @@ export default {
 
 <style lang="less" scoped>
   .home {
-      .article-info {
+    .article-info {
       display: flex;
       align-items: center;
       justify-content: space-between;
       .meta span {
         margin-right: 10px;
       }
-      .van-tabs /deep/ .van-tabs__wrap--scrollable {
+    }
+    // 展示频道的菜单按钮
+    .wap-nav {
+      position: sticky;
+      right:0;
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      opacity: 0.8;
+    }
+    .van-tabs /deep/ .van-tabs__wrap--scrollable {
       position: fixed;
       top: 46px;
       left: 0;
       right: 16px;
       z-index: 2;
       right: 15px;
-      }
-      /deep/ .van-tabs__content {
+    }
+    /deep/ .van-tabs__content {
       margin-top: 90px;
-      }
     }
     .channel-container {
       padding-top: 30px;
