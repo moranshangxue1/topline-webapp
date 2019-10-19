@@ -79,9 +79,9 @@
       </van-cell>
       <van-grid :gutter="10">
         <van-grid-item
-          v-for="value in 8"
-          :key="value"
-          text="文字"
+          v-for="(channel,index) in channels"
+          :key="index"
+          :text="channel.name"
         />
       </van-grid>
       <van-cell title="推荐频道" :border="false" />
