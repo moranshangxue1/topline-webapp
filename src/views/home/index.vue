@@ -90,6 +90,7 @@
           v-for="(channel, index) in recommondChannels"
           :key="index"
           :text="channel.name"
+          @click="onAddChannel(channel)"
         />
       </van-grid>
     </div>
@@ -233,6 +234,11 @@ export default {
     async loadAllChannels () {
       const { data } = await getAllChannels()
       this.allChannels = data.data.channels
+    },
+    // 添加频道------------------------
+    onAddChannel (channel) {
+      // 将频道添加到我的频道中
+      this.channels.push(channel)
     }
   }
 }
