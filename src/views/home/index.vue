@@ -47,10 +47,7 @@
                     <van-grid :border="false" :column-num="3">
                       <van-grid-item v-for="(img, index) in article.cover.images" :key="index">
                         <van-image
-                          width="100"
-                          height="100"
-                          lazy-load
-                          src="https://img.yzcdn.cn/vant/cat.jpeg"
+                          lazy-load height="80" :src="img"
                         />
                       </van-grid-item>
                     </van-grid>
@@ -59,14 +56,14 @@
                         <span>{{ article.aut_name }}</span>
                         <span>{{ article.comm_count }}评论</span>
                         <span>{{ article.pubdate | relativeTime }}</span>
-                      </div>      <van-icon name="close" />
+                      </div>
                     </div>
                   </div>
                 </van-cell>
             </van-list>
             <!-- /文章列表 -->
         </van-pull-refresh>
-        </van-tab>
+      </van-tab>
     </van-tabs>
     <!-- /频道列表 -->
     <!-- 频道管理 -->
@@ -88,27 +85,30 @@
         {{ isEditShow ? '完成' : '编辑'}}</van-button>
       </van-cell>
       <van-grid :gutter="10">
+        <van-grid-item text="推荐" @click="switchChannel(0)" />
         <van-grid-item
-          v-for="(channel,index) in channels"
+          v-for="(channel, index) in channels.slice(1)"
           :key="index"
           :text="channel.name"
-          @click="onMyChannelClick(index)">
-          <van-icon v-show="isEditShow" class="close-icon" slot="icon" name="close" />
+          @click="onMyChannelClick(index)"
+        >
+        <van-icon v-show="isEditShow" class="close-icon" slot="icon" name="close" />
         </van-grid-item>
       </van-grid>
+
       <van-cell title="推荐频道" :border="false" />
-      <van-grid :gutter="10">
-        <van-grid-item
-          v-for="(channel, index) in recommondChannels"
-          :key="index"
-          :text="channel.name"
-          @click="onAddChannel(channel)"
-        />
-      </van-grid>
-    </div>
+        <van-grid :gutter="10">
+          <van-grid-item
+            v-for="(channel, index) in recommondChannels"
+            :key="index"
+            :text="channel.name"
+            @click="onAddChannel(channel)"
+          />
+        </van-grid>
+      </div>
     </van-popup>
     <!-- /频道管理 -->
-  </div>
+    </div>
 </template>
 
 <script>
@@ -278,10 +278,17 @@ export default {
       } else {
         // 如果是费编辑状态，切换频道展示
         // 切换当前激活频道
-        this.active = index
+        // this.active = index
         // 关闭频道弹层
-        this.isChannelShow = false
+        // this.isChannelShow = false
+        // 因为这个数组不包括“推荐数组”频道，而首页中遍历的频道列表是包括推荐，所以让索引+1
+        this.switchChannel(index + 1)
       }
+    },
+    // 切换频道
+    switchChannel (index) {
+      this.active = index
+      this.isChannelShow = false
     }
   }
 }
@@ -306,16 +313,16 @@ export default {
       background-color: #fff;
       opacity: 0.8;
     }
-    .van-tabs /deep/ .van-tabs__wrap--scrollable {
+    .van-tabs /deep/ .van-tabs__wrap {
       position: fixed;
       top: 46px;
       left: 0;
-      right: 16px;
       z-index: 2;
       right: 15px;
     }
     /deep/ .van-tabs__content {
       margin-top: 90px;
+      margin-bottom: 50px;
     }
     .channel-container {
       padding-top: 30px;
