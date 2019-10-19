@@ -75,14 +75,20 @@
     >
     <div class="channel-container">
       <van-cell title="我的频道" :border="false">
-        <van-button type="danger" size="mini">编辑</van-button>
+        <van-button
+        type="danger"
+        size="mini"
+        @click="isEditShow = !isEditShow"
+        >
+        {{ isEditShow ? '完成' : '编辑'}}</van-button>
       </van-cell>
       <van-grid :gutter="10">
         <van-grid-item
           v-for="(channel,index) in channels"
           :key="index"
-          :text="channel.name"
-        />
+          :text="channel.name">
+          <van-icon v-show="isEditShow" class="close-icon" slot="icon" name="close" />
+        </van-grid-item>
       </van-grid>
       <van-cell title="推荐频道" :border="false" />
       <van-grid :gutter="10">
@@ -113,7 +119,8 @@ export default {
       finished: false,
       channels: [], // 我的频道列表
       isChannelShow: true, // 频道管理
-      allChannels: [] // 所有的频道列表数据
+      allChannels: [], // 所有的频道列表数据
+      isEditShow: false
     }
   },
   watch: {
@@ -263,27 +270,32 @@ export default {
 
 <style lang="less" scoped>
   .home {
-    .article-info {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .meta span {
-      margin-right: 10px;
+      .article-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .meta span {
+        margin-right: 10px;
+      }
+      .van-tabs /deep/ .van-tabs__wrap--scrollable {
+      position: fixed;
+      top: 46px;
+      left: 0;
+      right: 16px;
+      z-index: 2;
+      right: 15px;
+      }
+      /deep/ .van-tabs__content {
+      margin-top: 90px;
+      }
     }
-  }
-    .van-tabs /deep/ .van-tabs__wrap--scrollable {
-    position: fixed;
-    top: 46px;
-    left: 0;
-    right: 16px;
-    z-index: 2;
-    right: 15px;
+    .channel-container {
+      padding-top: 30px;
+      .close-icon {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+      }
     }
-    /deep/ .van-tabs__content {
-    margin-top: 90px;
-  }
-  }
-  .channel-container {
-    padding-top: 30px;
   }
 </style>
