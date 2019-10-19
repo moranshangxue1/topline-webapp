@@ -21,7 +21,8 @@ import {
   GridItem,
   Image,
   Lazyload,
-  Icon
+  Icon,
+  Popup
 } from 'vant'
 import './styles/index.less'
 // 表单验证
@@ -70,6 +71,7 @@ Vue
   .use(Image)
   .use(Lazyload)
   .use(Icon)
+  .use(Popup)
 Vue.config.productionTip = false
 
 new Vue({

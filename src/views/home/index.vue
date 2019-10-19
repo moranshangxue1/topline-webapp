@@ -7,7 +7,7 @@
     />
     <!-- /导航栏 -->
     <!-- 频道列表 -->
-    <van-tabs v-model="active">
+    <van-tabs v-model="active" animated swipeable>
         <van-tab
             :title="channel.name"
             v-for="channel in channels"
@@ -64,7 +64,14 @@
         </van-tab>
     </van-tabs>
     <!-- /频道列表 -->
-
+    <!-- 频道管理 -->
+    <van-popup
+      v-model="isChannelShow"
+      round
+      position="bottom"
+      :style="{ height: '95%' }"
+    />
+    <!-- /频道管理 -->
   </div>
 </template>
 
@@ -79,7 +86,8 @@ export default {
       list: [],
       loading: false,
       finished: false,
-      channels: [] // 频道列表
+      channels: [], // 频道列表
+      isChannelShow: false // 频道管理
     }
   },
   created () {
@@ -189,7 +197,7 @@ export default {
     z-index: 2;
     right: 15px;
     }
-    .van-tabs /deep/ .van-tabs__content {
+    /deep/ .van-tabs__content {
     margin-top: 90px;
   }
   }
