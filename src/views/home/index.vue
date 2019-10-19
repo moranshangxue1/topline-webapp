@@ -70,7 +70,30 @@
       round
       position="bottom"
       :style="{ height: '95%' }"
-    />
+      closeable
+      close-icon-position="top-left"
+    >
+    <div class="channel-container">
+      <van-cell title="我的频道" :border="false">
+        <van-button type="danger" size="mini">编辑</van-button>
+      </van-cell>
+      <van-grid :gutter="10">
+        <van-grid-item
+          v-for="value in 8"
+          :key="value"
+          text="文字"
+        />
+      </van-grid>
+      <van-cell title="推荐频道" :border="false" />
+      <van-grid :gutter="10">
+        <van-grid-item
+          v-for="value in 8"
+          :key="value"
+          text="文字"
+        />
+      </van-grid>
+    </div>
+    </van-popup>
     <!-- /频道管理 -->
   </div>
 </template>
@@ -87,7 +110,7 @@ export default {
       loading: false,
       finished: false,
       channels: [], // 频道列表
-      isChannelShow: false // 频道管理
+      isChannelShow: true // 频道管理
     }
   },
   created () {
@@ -200,5 +223,8 @@ export default {
     /deep/ .van-tabs__content {
     margin-top: 90px;
   }
+  }
+  .channel-container {
+    padding-top: 30px;
   }
 </style>
