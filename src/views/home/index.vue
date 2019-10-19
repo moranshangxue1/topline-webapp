@@ -86,7 +86,8 @@
         <van-grid-item
           v-for="(channel,index) in channels"
           :key="index"
-          :text="channel.name">
+          :text="channel.name"
+          @click="onMyChannelClick(index)">
           <van-icon v-show="isEditShow" class="close-icon" slot="icon" name="close" />
         </van-grid-item>
       </van-grid>
@@ -263,6 +264,19 @@ export default {
     onAddChannel (channel) {
       // 将频道添加到我的频道中
       this.channels.push(channel)
+    },
+    // 我的频道项点击处理函数
+    onMyChannelClick (index) {
+    // 如果是编辑状态，删除频道
+      if (this.isEditShow) {
+        this.channels.splice(index, 1)
+      } else {
+        // 如果是费编辑状态，切换频道展示
+        // 切换当前激活频道
+        this.active = index
+        // 关闭频道弹层
+        this.isChannelShow = false
+      }
     }
   }
 }
