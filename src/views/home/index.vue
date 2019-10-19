@@ -229,13 +229,14 @@ export default {
       }
       //  根据需要扩展自定义数据，用以满足我们的业务需求
       // this.channels = data.data.channels
-      channels.forEach(channel => {
-        channel.articles = [] // 存储频道的文章列表
-        channel.finished = false // 存储频道的加载结束状态
-        channel.loading = false // 存储频道的加载更多的 loading 状态
-        channel.timestamp = null // 存储获取频道下一页的时间戳
-        channel.isPullDownloading = false // 存储频道的下拉刷新loading状态
-      })
+      this.extendData(channels)
+      // channels.forEach(channel => {
+      //   channel.articles = [] // 存储频道的文章列表
+      //   channel.finished = false // 存储频道的加载结束状态
+      //   channel.loading = false // 存储频道的加载更多的 loading 状态
+      //   channel.timestamp = null // 存储获取频道下一页的时间戳
+      //   channel.isPullDownloading = false // 存储频道的下拉刷新loading状态
+      // })
       // 最后把数据更新到组件中
       this.channels = channels
     },
@@ -263,7 +264,16 @@ export default {
     //  获取所有频道
     async loadAllChannels () {
       const { data } = await getAllChannels()
-      this.allChannels = data.data.channels
+      const channels = data.data.channels
+      this.extendData(channels)
+      // channels.forEach(channel => {
+      //   channel.articles = [] // 存储频道的文章列表
+      //   channel.finished = false // 存储频道的加载结束状态
+      //   channel.loading = false // 存储频道的加载更多的 loading 状态
+      //   channel.timestamp = null // 存储获取频道下一页的时间戳
+      //   channel.isPullDownloading = false // 存储频道的下拉刷新loading状态
+      // })
+      this.allChannels = channels
     },
     // 添加频道------------------------
     onAddChannel (channel) {
@@ -289,6 +299,16 @@ export default {
     switchChannel (index) {
       this.active = index
       this.isChannelShow = false
+    },
+    // 封装
+    extendData (channels) {
+      channels.forEach(channel => {
+        channel.articles = [] // 存储频道的文章列表
+        channel.finished = false // 存储频道的加载结束状态
+        channel.loading = false // 存储频道的加载更多的 loading 状态
+        channel.timestamp = null // 存储获取频道下一页的时间戳
+        channel.isPullDownloading = false // 存储频道的下拉刷新loading状态
+      })
     }
   }
 }
