@@ -23,6 +23,7 @@ import {
   Lazyload,
   Icon,
   Popup
+
 } from 'vant'
 import './styles/index.less'
 // 表单验证

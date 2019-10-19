@@ -102,6 +102,7 @@
 <script>
 import { getDefaultChannels, getAllChannels } from '@/api/channel'
 import { getArticles } from '@/api/article'
+import { getItem, setItem } from '@/utils/storage'
 export default {
   name: 'HomeIndex',
   data () {
@@ -113,6 +114,12 @@ export default {
       channels: [], // 我的频道列表
       isChannelShow: true, // 频道管理
       allChannels: [] // 所有的频道列表数据
+    }
+  },
+  watch: {
+    // 函数名就是要监视的数据成员名称
+    channels (newVal) {
+      setItem('channels', newVal)
     }
   },
   computed: {
@@ -197,8 +204,17 @@ export default {
     // },
     // 2. 加载我的频道列表
     async loadChannels () {
-      const { data } = await getDefaultChannels()
-      const channels = data.data.channels
+      let channels = []
+      const localChannels = getItem('channels')
+      // 如果有本地存储的频道列表就使用本地存储的频道列表
+      if (localChannels) {
+        channels = localChannels
+      } else {
+        // 如果没有本地存储的频道列表，则请求获取后台推荐的频道列表
+        const { data } = await getDefaultChannels()
+        channels = data.data.channels
+      }
+      //  根据需要扩展自定义数据，用以满足我们的业务需求
       // this.channels = data.data.channels
       channels.forEach(channel => {
         channel.articles = [] // 存储频道的文章列表
@@ -207,6 +223,7 @@ export default {
         channel.timestamp = null // 存储获取频道下一页的时间戳
         channel.isPullDownloading = false // 存储频道的下拉刷新loading状态
       })
+      // 最后把数据更新到组件中
       this.channels = channels
     },
     // 下拉刷新
