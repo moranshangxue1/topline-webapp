@@ -87,9 +87,9 @@
       <van-cell title="推荐频道" :border="false" />
       <van-grid :gutter="10">
         <van-grid-item
-          v-for="value in 8"
-          :key="value"
-          text="文字"
+          v-for="(channel, index) in recommondChannels"
+          :key="index"
+          :text="channel.name"
         />
       </van-grid>
     </div>
@@ -112,6 +112,32 @@ export default {
       channels: [], // 我的频道列表
       isChannelShow: true, // 频道管理
       allChannels: [] // 所有的频道列表数据
+    }
+  },
+  computed: {
+  /**
+   * 获取推荐频道列表
+   */
+    recommondChannels () {
+      const arr = []
+      // 遍历所有频道
+      this.allChannels.forEach(channel => {
+      // 判断 channel 是否存在我的频道中
+      // 如果不存在，就证明它是剩余推荐的频道
+
+        // 数组的 find 方法
+        // 它会遍历数组，每遍历一次，它就判定 item.id === channel.id
+        // 如果 true，则停止遍历，返回满足该条件的元素
+        // 如果 false，则继续遍历
+        // 如果直到遍历结束都没有找到符合 item.id === channel.id 条件的元素，则返回 undefined
+        const ret = this.channels.find(item => item.id === channel.id)
+        if (!ret) {
+          arr.push(channel)
+        }
+      })
+
+      return arr
+    // return 所有频道 - 我的频道
     }
   },
   created () {
