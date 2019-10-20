@@ -1,10 +1,16 @@
 <template>
   <div class="home">
       <!-- 导航栏 -->
-    <van-nav-bar
-        title="首页"
-        fixed
-    />
+     <van-nav-bar fixed>
+      <van-button
+        class="search-btn"
+        slot="title"
+        round
+        type="info"
+        size="small"
+        @click="$router.push('/search')"
+      >搜索</van-button>
+    </van-nav-bar>
     <!-- /导航栏 -->
     <!-- 频道列表 -->
     <van-tabs v-model="active" animated swipeable>
@@ -323,6 +329,10 @@ export default {
       .meta span {
         margin-right: 10px;
       }
+    }
+    .search-btn {
+       width: 100%;
+       background: #5babfb;
     }
     // 展示频道的菜单按钮
     .wap-nav {
