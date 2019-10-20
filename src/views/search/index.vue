@@ -16,11 +16,12 @@
     <!-- 联想建议 -->
     <van-cell-group>
       <van-cell
-        :title="item"
         icon="search"
         v-for="(item, index) in searchSuggestions"
         :key="index"
-      />
+      >
+       <div v-html="item" slot="title"></div>
+      </van-cell>
     </van-cell-group>
     <!-- /联想建议 -->
   </div>
@@ -48,11 +49,21 @@ export default {
       if (!searchText) {
         return
       }
+
       const { data } = await getSearchSuggestions({
         q: this.searchText
       })
 
-      this.searchSuggestions = data.data.options
+      const searchSuggestions = data.data.options
+
+      // 根据一个字符串创建一个正则表达式对象
+      const reg = new RegExp(searchText, 'g')
+
+      searchSuggestions.forEach((item, index) => {
+        searchSuggestions[index] = item.replace(reg, '<span style="color: red">' + searchText + '</span>')
+      })
+
+      this.searchSuggestions = searchSuggestions
     }
   }
 }
