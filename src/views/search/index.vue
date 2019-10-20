@@ -2,35 +2,57 @@
   <div class="search">
     <!-- 搜索框 -->
     <van-search
-      v-model="value"
+      v-model="searchText"
       placeholder="请输入搜索关键词"
       show-action
       shape="round"
       @search="onSearch"
+      @input="onSearchInput"
     >
-    <div slot="action" @click="onSearch">搜索</div>
-  </van-search>
-  <!-- /搜索框 -->
-  <!-- 联想建议 -->
-  <van-cell-group>
-    <van-cell title="单元格" icon="search" />
-    <van-cell title="单元格" icon="search" />
-  </van-cell-group>
+      <div slot="action" @click="onSearch">搜索</div>
+    </van-search>
+    <!-- /搜索框 -->
+
+    <!-- 联想建议 -->
+    <van-cell-group>
+      <van-cell
+        :title="item"
+        icon="search"
+        v-for="(item, index) in searchSuggestions"
+        :key="index"
+      />
+    </van-cell-group>
     <!-- /联想建议 -->
   </div>
 </template>
 
 <script>
+import { getSearchSuggestions } from '@/api/search'
+
 export default {
   name: 'SearchIndex',
   data () {
     return {
-      searchText: ''
+      searchText: '',
+      searchSuggestions: [] // 联想建议列表
     }
   },
+
   methods: {
-    onSeaarch () {
+    onSearch () {
       console.log('onSearch')
+    },
+
+    async onSearchInput () {
+      const searchText = this.searchText.trim()
+      if (!searchText) {
+        return
+      }
+      const { data } = await getSearchSuggestions({
+        q: this.searchText
+      })
+
+      this.searchSuggestions = data.data.options
     }
   }
 }
